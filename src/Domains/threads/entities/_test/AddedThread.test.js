@@ -14,7 +14,6 @@ describe('a AddedThread entities', () => {
     const payload = {
       id: 123,
       title: 'Sint consequat est duis amet consequat in do sit adipisicing quis id magna.',
-      body: 'Mollit dolore cillum non adipisicing esse eu qui proident exercitation amet.',
       owner: true,
     };
 
@@ -26,7 +25,6 @@ describe('a AddedThread entities', () => {
     const payload = {
       id: 'thread-abc123',
       title: 'Culpa irure velit elit ad veniam labore do ut enim.',
-      body: 'Ullamco voluptate anim quis voluptate ullamco duis consectetur.',
       owner: 'user-123',
     };
 

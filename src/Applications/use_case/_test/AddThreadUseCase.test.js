@@ -1,48 +1,39 @@
 const AddedThread = require('../../../Domains/threads/entities/AddedThread');
+const AddThread = require('../../../Domains/threads/entities/AddThread');
 const ThreadRepository = require('../../../Domains/threads/ThreadRepository');
+const AddThreadUseCase = require('../AddThreadUseCase');
 
 describe('AddThreadUseCase', () => {
-  it('should orchestrating the add user action correctly', async () => {
-    // Arrange
+  it('should orchestrating the add thread action correctly', async () => {
     const useCasePayload = {
-      username: 'dicoding',
-      password: 'secret',
-      fullname: 'Dicoding Indonesia',
+      title: 'a thread',
+      body: 'Lorem ipsum dolor sit amet',
+      owner: 'user-123',
     };
-    const expectedAddedUser = new AddedThread({
-      id: 'user-123',
-      username: useCasePayload.username,
-      fullname: useCasePayload.fullname,
+
+    const expectedAddedThread = new AddedThread({
+      id: 'thread-h_123',
+      title: useCasePayload.title,
+      body: useCasePayload.body,
+      owner: useCasePayload.owner,
     });
 
-    /** Creating dependency of use case */
     const mockThreadRepository = new ThreadRepository();
 
-    /** Mocking needed function */
-    mockUserRepository.verifyAvailableUsername = jest.fn()
-      .mockImplementation(() => Promise.resolve());
-    mockEncryptionHelper.encryptPassword = jest.fn()
-      .mockImplementation(() => Promise.resolve('encrypted_password'));
-    mockUserRepository.addUser = jest.fn()
-      .mockImplementation(() => Promise.resolve(expectedAddedUser));
+    mockThreadRepository.addThread = jest.fn()
+      .mockImplementation(() => Promise.resolve(expectedAddedThread));
 
-    /** Creating use case instance */
-    const getUserUseCase = new AddUserUseCase({
-      userRepository: mockUserRepository,
-      encryptionHelper: mockEncryptionHelper,
+    const getThreadUseCase = new AddThreadUseCase({
+      threadRepository: mockThreadRepository,
     });
 
-    // Action
-    const addedUser = await getUserUseCase.execute(useCasePayload);
+    const addedThread = await getThreadUseCase.execute(useCasePayload);
 
-    // Assert
-    expect(addedUser).toStrictEqual(expectedAddedUser);
-    expect(mockUserRepository.verifyAvailableUsername).toBeCalledWith(useCasePayload.username);
-    expect(mockEncryptionHelper.encryptPassword).toBeCalledWith(useCasePayload.password);
-    expect(mockUserRepository.addUser).toBeCalledWith(new NewUser({
-      username: useCasePayload.username,
-      password: 'encrypted_password',
-      fullname: useCasePayload.fullname,
+    expect(addedThread).toStrictEqual(expectedAddedThread);
+    expect(mockThreadRepository.addThread).toBeCalledWith(new AddThread({
+      title: useCasePayload.title,
+      body: useCasePayload.body,
+      owner: useCasePayload.owner,
     }));
   });
 });

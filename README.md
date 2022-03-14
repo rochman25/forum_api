@@ -9,4 +9,6 @@ forum api build with node js and hapi.
 4. `cp .env.example .env`
 5. Setting env
 6. `npm run migrate up`
-7. `npm run start:dev`
+7. `npm run migrate:test up`
+8. `npm run start:dev`
+9. `npm run test`

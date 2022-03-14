@@ -20,6 +20,8 @@ describe('AddThreadUseCase', () => {
 
     const mockThreadRepository = new ThreadRepository();
 
+    mockThreadRepository.verifyAvailableThread = jest.fn()
+      .mockImplementation(() => Promise.resolve());
     mockThreadRepository.addThread = jest.fn()
       .mockImplementation(() => Promise.resolve(expectedAddedThread));
 
@@ -30,6 +32,7 @@ describe('AddThreadUseCase', () => {
     const addedThread = await getThreadUseCase.execute(useCasePayload);
 
     expect(addedThread).toStrictEqual(expectedAddedThread);
+    expect(mockThreadRepository.verifyAvailableThread).toBeCalledWith(useCasePayload.title);
     expect(mockThreadRepository.addThread).toBeCalledWith(new AddThread({
       title: useCasePayload.title,
       body: useCasePayload.body,

@@ -1,3 +1,4 @@
+const InvariantError = require('../../Commons/exceptions/InvariantError');
 const AddedThread = require('../../Domains/threads/entities/AddedThread');
 const ThreadRepository = require('../../Domains/threads/ThreadRepository');
 
@@ -6,6 +7,19 @@ class ThreadRepositoryPostgres extends ThreadRepository {
     super();
     this._pool = pool;
     this._idGenerator = idGenerator;
+  }
+
+  async verifyAvailableThread(title) {
+    const query = {
+      text: 'SELECT title FROM threads WHERE title = $1',
+      values: [title],
+    };
+
+    const result = await this._pool.query(query);
+
+    if (result.rowCount) {
+      throw new InvariantError('thread sudah pernah dibuat');
+    }
   }
 
   async addThread(newThread) {

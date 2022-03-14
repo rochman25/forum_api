@@ -5,6 +5,7 @@ const pool = require('../../database/postgres/pool');
 const AddThread = require('../../../Domains/threads/entities/AddThread');
 const UsersTableTestHelper = require('../../../../tests/UsersTableTestHelper');
 const AddedThread = require('../../../Domains/threads/entities/AddedThread');
+const InvariantError = require('../../../Commons/exceptions/InvariantError');
 
 describe('ThreadRepositoryPostgres', () => {
   it('should be instance of ThreadRepository domain', () => {
@@ -20,6 +21,24 @@ describe('ThreadRepositoryPostgres', () => {
 
     afterAll(async () => {
       await pool.end();
+    });
+
+    describe('verifyAvailableThread function', () => {
+      it('should throw InvariantError when thread not available', async () => {
+        await UsersTableTestHelper.addUser({ id: 'user-1234567', username: 'zaen' });
+        await ThreadsTableTestHelper.addThread({ title: 'a thread', owner: 'user-1234567' });
+        const threadRepositoryPostgres = new ThreadRepositoryPostgres(pool, {});
+
+        await expect(threadRepositoryPostgres.verifyAvailableThread('a thread')).rejects.toThrowError(InvariantError);
+      });
+
+      it('should not throw InvariantError when thread available', async () => {
+        // Arrange
+        const threadRepositoryPostgres = new ThreadRepositoryPostgres(pool, {});
+
+        // Action & Assert
+        await expect(threadRepositoryPostgres.verifyAvailableThread('a thread')).resolves.not.toThrowError(InvariantError);
+      });
     });
 
     describe('addThread function', () => {

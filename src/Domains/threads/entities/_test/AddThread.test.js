@@ -20,7 +20,7 @@ describe('a AddThread entities', () => {
     expect(() => new AddThread(payload)).toThrowError('ADD_THREAD.NOT_MEET_DATA_TYPE_SPECIFICATION');
   });
 
-  it('should throw error when username contains more than 250 character', () => {
+  it('should throw error when title contains more than 250 character', () => {
     const payload = {
       title: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Vel risus commodo viverra maecenas accumsan lacus vel. Consequat interdum varius sit amet mattis vulputate enim nulla. Sit amet aliquam id diam maecenas. Ut etiam sit amet nisl purus. Suscipit adipiscing bibendum est ultricies integer quis.',
       body: 'Dicoding Indonesia',

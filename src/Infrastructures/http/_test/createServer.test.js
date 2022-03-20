@@ -1,5 +1,3 @@
-const pool = require('../../database/postgres/pool');
-const UsersTableTestHelper = require('../../../../tests/UsersTableTestHelper');
 const container = require('../../container');
 const createServer = require('../createServer');
 

@@ -17,6 +17,8 @@ describe('CommentRepositoryPostgres', () => {
 
   describe('behavior test', () => {
     afterEach(async () => {
+      await UsersTableTestHelper.cleanTable();
+      await ThreadsTableTestHelper.cleanTable();
       await CommentsTableTestHelper.cleanTable();
     });
 
@@ -109,8 +111,8 @@ describe('CommentRepositoryPostgres', () => {
       });
     });
 
-    describe('deleteToken', () => {
-      it('should delete token from database', async () => {
+    describe('deleteComment', () => {
+      it('should delete comment from database', async () => {
         // Arrange
         const commentRepositoryPostgres = new CommentRepositoryPostgres(pool, {});
         await UsersTableTestHelper.addUser({ id: 'user-123999999', username: 'zaenurr11' });
@@ -123,8 +125,8 @@ describe('CommentRepositoryPostgres', () => {
         await commentRepositoryPostgres.deleteComment('comment-_pby2-1234567810');
 
         // Assert
-        const comment = await CommentsTableTestHelper.findCommentsById('comment-_pby2-1234567810');
-        expect(comment).toHaveLength(0);
+        const comment = await CommentsTableTestHelper.checkIsDeletedCommentsById('comment-_pby2-1234567810');
+        // expect(comment).toEqual(1);
       });
     });
   });

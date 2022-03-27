@@ -20,6 +20,10 @@ exports.up = (pgm) => {
       type: 'VARCHAR(50)',
       notNull: true,
     },
+    is_deleted: {
+      type: 'INTEGER',
+      notNull: true,
+    },
     created_at: {
       type: 'TEXT',
       notNull: false,

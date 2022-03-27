@@ -1,6 +1,6 @@
 {
-    "user": "dev_1",
-    "password": "zerodev",
+    "user": "dev",
+    "password": "secret",
     "host": "localhost",
     "port": 5432,
     "database": "forumapi_test"

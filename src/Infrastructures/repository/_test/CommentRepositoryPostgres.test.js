@@ -126,7 +126,38 @@ describe('CommentRepositoryPostgres', () => {
 
         // Assert
         const comment = await CommentsTableTestHelper.checkIsDeletedCommentsById('comment-_pby2-1234567810');
-        // expect(comment).toEqual(1);
+        expect(comment).toEqual(1);
+      });
+    });
+
+    describe('getCommentsThread', () => {
+      it('should get comments of thread', async () => {
+        const commentRepositoryPostgres = new CommentRepositoryPostgres(pool, {});
+        const userPayload = { id: 'user-12345678910', username: 'zaenurr07' };
+        const threadPayload = {
+          id: 'thread-h_12345678X1',
+          title: 'sebuah judul thread',
+          body: 'sebuah thread',
+          owner: 'user-12345678910',
+        };
+        const commentPayload = {
+          id: 'comment-_pby2-1234567811',
+          content: 'sebuah komentar',
+          thread: threadPayload.id,
+          owner: userPayload.id,
+        };
+
+        await UsersTableTestHelper.addUser(userPayload);
+        await ThreadsTableTestHelper.addThread(threadPayload);
+        await CommentsTableTestHelper.addComment(commentPayload);
+        await CommentsTableTestHelper.deleteComment(commentPayload.id);
+
+        const comments = await commentRepositoryPostgres.getCommentsThread(threadPayload.id);
+
+        expect(Array.isArray(comments)).toBe(true);
+        expect(comments[0].id).toEqual(commentPayload.id);
+        expect(comments[0].username).toEqual(userPayload.username);
+        expect(comments[0].content).toEqual('**komentar telah dihapus**');
       });
     });
   });

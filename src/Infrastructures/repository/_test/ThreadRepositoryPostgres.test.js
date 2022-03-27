@@ -5,7 +5,6 @@ const pool = require('../../database/postgres/pool');
 const AddThread = require('../../../Domains/threads/entities/AddThread');
 const UsersTableTestHelper = require('../../../../tests/UsersTableTestHelper');
 const AddedThread = require('../../../Domains/threads/entities/AddedThread');
-const InvariantError = require('../../../Commons/exceptions/InvariantError');
 const NotFoundError = require('../../../Commons/exceptions/NotFoundError');
 
 describe('ThreadRepositoryPostgres', () => {
@@ -18,6 +17,7 @@ describe('ThreadRepositoryPostgres', () => {
   describe('behavior test', () => {
     afterEach(async () => {
       await ThreadsTableTestHelper.cleanTable();
+      await UsersTableTestHelper.cleanTable();
     });
 
     afterAll(async () => {
@@ -69,6 +69,28 @@ describe('ThreadRepositoryPostgres', () => {
         // Action & Assert
         await expect(threadRepositoryPostgres.checkAvailabilityThread('thread-h_123'))
           .resolves.not.toThrow(NotFoundError);
+      });
+    });
+
+    describe('getDetailThread function', () => {
+      it('should get detail thread', async () => {
+        const threadRepository = new ThreadRepositoryPostgres(pool, {});
+        const userPayload = { id: 'user-12345678910', username: 'zaenurr07' };
+        const threadPayload = {
+          id: 'thread-h_12345678X1',
+          title: 'sebuah judul thread',
+          body: 'sebuah thread',
+          owner: 'user-12345678910',
+        };
+        await UsersTableTestHelper.addUser(userPayload);
+        await ThreadsTableTestHelper.addThread(threadPayload);
+
+        const detailThread = await threadRepository.getDetailThread(threadPayload.id);
+
+        expect(detailThread.id).toEqual(threadPayload.id);
+        expect(detailThread.title).toEqual(threadPayload.title);
+        expect(detailThread.body).toEqual(threadPayload.body);
+        expect(detailThread.username).toEqual(userPayload.username);
       });
     });
   });

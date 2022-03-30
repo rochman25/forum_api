@@ -23,11 +23,13 @@ describe('DetailThreadUseCase', () => {
       commentRepository: mockCommentRepository,
     });
 
-    await detailThreadUseCase.execute(useCasePayload);
+    const detailThread = await detailThreadUseCase.execute(useCasePayload);
 
     expect(mockThreadRepository.getDetailThread)
       .toHaveBeenCalledWith(useCasePayload.thread);
     expect(mockCommentRepository.getCommentsThread)
       .toHaveBeenCalledWith(useCasePayload.thread);
+    expect(detailThread).toHaveProperty('thread');
+    expect(detailThread).toHaveProperty('comments');
   });
 });

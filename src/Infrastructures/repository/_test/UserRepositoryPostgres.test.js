@@ -66,6 +66,30 @@ describe('UserRepositoryPostgres', () => {
       });
     });
 
+    describe('getPasswordByUsername', () => {
+      it('should throw InvariantError when user not found', async () => {
+        // Arrange
+        const userRepositoryPostgres = new UserRepositoryPostgres(pool, {});
+
+        // Action & Assert
+        await expect(userRepositoryPostgres.getIdByUsername('dicoding'))
+          .rejects
+          .toThrowError(InvariantError);
+      });
+
+      it('should return password correctly', async () => {
+        // Arrange
+        await UsersTableTestHelper.addUser({ id: 'user-321', username: 'dicoding', password: 'supersecret' });
+        const userRepositoryPostgres = new UserRepositoryPostgres(pool, {});
+
+        // Action
+        const password = await userRepositoryPostgres.getPasswordByUsername('dicoding');
+
+        // Assert
+        expect(password).toEqual('supersecret');
+      });
+    });
+
     describe('getIdByUsername', () => {
       it('should throw InvariantError when user not found', async () => {
         // Arrange

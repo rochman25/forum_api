@@ -157,6 +157,7 @@ describe('CommentRepositoryPostgres', () => {
         expect(comments[0].id).toEqual(commentPayload.id);
         expect(comments[0].username).toEqual(userPayload.username);
         expect(comments[0].content).toEqual('sebuah komentar');
+        expect(comments[0].date).toBeDefined();
       });
 
       it('should delete and return comments of thread with changed content', async () => {

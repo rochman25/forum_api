@@ -1,0 +1,7 @@
+{
+    "user": "PGUSER_TEST",
+    "password": "PGPASSWORD_TEST",
+    "host": "PGHOST_TEST",
+    "port": 5432,
+    "database": "PGDATABASE_TEST"
+  }

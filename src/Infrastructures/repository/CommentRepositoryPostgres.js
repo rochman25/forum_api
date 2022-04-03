@@ -68,21 +68,7 @@ class CommentRepositoryPostgres extends CommentRepository {
     };
 
     const comments = await this._pool.query(query);
-    const results = [];
-    comments.rows.forEach((a) => {
-      const comment = {
-        id: a.id,
-        username: a.username,
-        date: a.date,
-        content: a.content,
-      };
-      if (a.is_deleted > 0) {
-        // eslint-disable-next-line no-param-reassign
-        comment.content = '**komentar telah dihapus**';
-      }
-      results.push(comment);
-    });
-    return results;
+    return comments.rows;
   }
 }
 

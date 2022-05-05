@@ -72,7 +72,7 @@ describe('UserRepositoryPostgres', () => {
         const userRepositoryPostgres = new UserRepositoryPostgres(pool, {});
 
         // Action & Assert
-        await expect(userRepositoryPostgres.getIdByUsername('dicoding'))
+        await expect(userRepositoryPostgres.getPasswordByUsername('dicoding'))
           .rejects
           .toThrowError(InvariantError);
       });

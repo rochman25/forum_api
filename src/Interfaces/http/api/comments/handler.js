@@ -19,14 +19,12 @@ class CommentHandler {
     };
     const addedComment = await addCommentUseCase.execute(useCasePayload);
 
-    const response = h.response({
+    return h.response({
       status: 'success',
       data: {
         addedComment,
       },
-    });
-    response.code(201);
-    return response;
+    }).code(201);
   }
 
   async deleteCommentHandler(request, h) {
@@ -41,11 +39,9 @@ class CommentHandler {
     };
     await deleteCommentUseCase.execute(useCasePayload);
 
-    const response = h.response({
+    return h.response({
       status: 'success',
     });
-    response.code(200);
-    return response;
   }
 }
 

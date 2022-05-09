@@ -11,14 +11,12 @@ class UsersHandler {
     const addUserUseCase = this._container.getInstance(AddUserUseCase.name);
     const addedUser = await addUserUseCase.execute(request.payload);
 
-    const response = h.response({
+    return h.response({
       status: 'success',
       data: {
         addedUser,
       },
-    });
-    response.code(201);
-    return response;
+    }).code(201);
   }
 }
 

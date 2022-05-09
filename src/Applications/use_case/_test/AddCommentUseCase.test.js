@@ -21,8 +21,7 @@ describe('AddCommentUseCase', () => {
     const mockCommentRepository = new CommentRepository();
     const mockThreadRepository = new ThreadRepository();
 
-    mockThreadRepository.checkAvailabilityThread = jest.fn()
-      .mockImplementation(() => Promise.resolve());
+    mockThreadRepository.checkAvailabilityThread = jest.fn(() => Promise.resolve());
     mockCommentRepository.addComment = jest.fn()
       .mockImplementation(() => Promise.resolve(expectedAddedComment));
 
@@ -34,7 +33,7 @@ describe('AddCommentUseCase', () => {
     const addedComment = await getCommentUseCase.execute(useCasePayload);
 
     expect(mockThreadRepository.checkAvailabilityThread).toBeCalledWith(useCasePayload.thread);
-    expect(addedComment).toStrictEqual((expectedAddedComment));
+    expect(addedComment).toStrictEqual(expectedAddedComment);
     expect(mockCommentRepository.addComment).toBeCalledWith(new AddComment({
       thread: useCasePayload.thread,
       content: useCasePayload.content,

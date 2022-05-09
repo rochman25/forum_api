@@ -16,20 +16,12 @@ class DetailComment {
   }
 
   _remappingPayload({ comments }) {
-    const results = [];
-    comments.forEach((a) => {
-      const comment = {
-        id: a.id,
-        username: a.username,
-        date: a.date,
-        content: a.content,
-      };
-      if (a.is_deleted > 0) {
-        comment.content = '**komentar telah dihapus**';
-      }
-      results.push(comment);
-    });
-    return results;
+    return comments.map((comment) => ({
+      id: comment.id,
+      username: comment.username,
+      date: comment.date,
+      content: comment.is_deleted ? '**komentar telah dihapus**' : comment.content,
+    }));
   }
 }
 

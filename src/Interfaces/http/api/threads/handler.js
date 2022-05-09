@@ -18,14 +18,12 @@ class ThreadsHandler {
       owner,
     };
     const addedThread = await addThreadUseCase.execute(useCasePayload);
-    const response = h.response({
+    return h.response({
       status: 'success',
       data: {
         addedThread,
       },
-    });
-    response.code(201);
-    return response;
+    }).code(201);
   }
 
   async getDetailThreadHandler(request, h) {
@@ -34,14 +32,12 @@ class ThreadsHandler {
       thread: request.params.threadId,
     };
     const { thread } = await detailThreadUseCase.execute(useCasePayload);
-    const response = h.response({
+    return h.response({
       status: 'success',
       data: {
         thread,
       },
     });
-    response.code(200);
-    return response;
   }
 }
 

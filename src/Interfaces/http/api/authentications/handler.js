@@ -14,15 +14,13 @@ class AuthenticationsHandler {
   async postAuthenticationHandler(request, h) {
     const userLoginUseCase = this._container.getInstance(UserLoginUseCase.name);
     const { accessToken, refreshToken } = await userLoginUseCase.execute(request.payload);
-    const response = h.response({
+    return h.response({
       status: 'success',
       data: {
         accessToken,
         refreshToken,
       },
-    });
-    response.code(201);
-    return response;
+    }).code(201);
   }
 
   async putAuthenticationHandler(request) {

@@ -16,7 +16,7 @@ class CommentRepositoryPostgres extends CommentRepository {
     const createdAt = new Date().toISOString();
 
     const query = {
-      text: 'INSERT INTO comments VALUES($1, $2, $3, $4, 0 ,$5, $5) RETURNING id, content, owner',
+      text: 'INSERT INTO comments VALUES($1, $2, $3, $4, FALSE ,$5, $5) RETURNING id, content, owner',
       values: [id, thread, content, owner, createdAt],
     };
 
@@ -53,7 +53,7 @@ class CommentRepositoryPostgres extends CommentRepository {
 
   async deleteComment(comment) {
     const query = {
-      text: 'UPDATE comments SET is_deleted=1 WHERE id = $1',
+      text: 'UPDATE comments SET is_deleted=TRUE WHERE id = $1',
       values: [comment],
     };
 

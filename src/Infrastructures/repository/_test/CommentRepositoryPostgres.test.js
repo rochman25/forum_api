@@ -126,7 +126,7 @@ describe('CommentRepositoryPostgres', () => {
 
         // Assert
         const comment = await CommentsTableTestHelper.checkIsDeletedCommentsById('comment-_pby2-1234567810');
-        expect(comment).toEqual(1);
+        expect(comment).toEqual(true);
       });
     });
 
